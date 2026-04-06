@@ -4,56 +4,92 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Job Agent</title>
-    <style>
-      :root {
-        color-scheme: light dark;
-        font-family:
-          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-          "Segoe UI", sans-serif;
-      }
-
-      body {
-        margin: 0;
-        min-height: 100vh;
-        display: grid;
-        place-items: center;
-        background: #f6f7f9;
-        color: #172033;
-      }
-
-      main {
-        width: min(720px, calc(100vw - 32px));
-        border: 1px solid #d9dee7;
-        border-radius: 16px;
-        padding: 32px;
-        background: #ffffff;
-        box-shadow: 0 16px 48px rgb(23 32 51 / 8%);
-      }
-
-      h1 {
-        margin: 0 0 12px;
-      }
-
-      p {
-        line-height: 1.6;
-      }
-
-      code {
-        border-radius: 6px;
-        padding: 2px 6px;
-        background: #eef1f6;
-      }
-    </style>
+    <link rel="stylesheet" href="/styles.css" />
+    <script type="module" src="/main.js"></script>
   </head>
   <body>
-    <main>
-      <h1>Job Agent</h1>
-      <p>
-        Milestone 1 placeholder app. JD input, resume input, analysis results,
-        follow-up Q&amp;A, file uploads, and job-source collection are intentionally
-        out of scope for this milestone.
-      </p>
-      <p>Start the API placeholder separately with <code>npm run start:server</code>.</p>
+    <main class="shell">
+      <header class="hero">
+        <p class="eyebrow">Milestone 4</p>
+        <h1>Job Agent</h1>
+        <p>
+          Paste a job description and resume, then ask one follow-up question
+          grounded in the current analysis result. File upload and job-source
+          collection are still out of scope.
+        </p>
+      </header>
+
+      <section class="layout" aria-label="Job Agent workspace">
+        <form class="panel form-panel" id="analysis-form">
+          <div class="field">
+            <label for="job-description">Job description</label>
+            <textarea
+              id="job-description"
+              name="job_description"
+              rows="12"
+              placeholder="Paste the target JD here..."
+            ></textarea>
+          </div>
+
+          <div class="field">
+            <label for="resume">Resume</label>
+            <textarea
+              id="resume"
+              name="resume"
+              rows="12"
+              placeholder="Paste the resume here..."
+            ></textarea>
+          </div>
+
+          <div class="actions">
+            <button type="submit" id="submit-button">Analyze fit</button>
+            <p class="hint">No data is persisted. The server returns a minimal heuristic analysis.</p>
+          </div>
+        </form>
+
+        <section class="panel result-panel" aria-live="polite">
+          <div class="state state-loading" id="loading-state" role="status" hidden>
+            Generating placeholder analysis...
+          </div>
+
+          <div class="state state-error" id="error-state" role="alert" hidden></div>
+
+          <div class="result-empty" id="empty-state">
+            <h2>Analysis result</h2>
+            <p>
+              Submit a JD and resume to render the structured response from
+              <code>POST /api/analyze</code>.
+            </p>
+          </div>
+
+          <div class="result-grid" id="result-sections" hidden></div>
+
+          <form class="followup-panel" id="followup-form" hidden>
+            <h2>Follow-up Q&amp;A</h2>
+            <label for="followup-question">Ask about this analysis</label>
+            <textarea
+              id="followup-question"
+              name="question"
+              rows="4"
+              placeholder="Example: What are my biggest weaknesses, and how should I improve?"
+            ></textarea>
+            <button type="submit" id="followup-button">Ask follow-up</button>
+            <div class="state state-loading" id="followup-loading-state" role="status" hidden>
+              Answering from the current analysis...
+            </div>
+            <div class="state state-error" id="followup-error-state" role="alert" hidden></div>
+            <div class="followup-answer" id="followup-answer" hidden></div>
+          </form>
+
+          <aside class="future-slot" aria-label="Future recommended jobs placeholder">
+            <h2>Future V2 area</h2>
+            <p>
+              Recommended jobs and recruitment-source results can be added here
+              later without changing the core analysis sections.
+            </p>
+          </aside>
+        </section>
+      </section>
     </main>
   </body>
 </html>

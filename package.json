@@ -6,7 +6,7 @@
   "scripts": {
     "start:app": "node app/server.mjs",
     "start:server": "node server/index.mjs",
-    "check": "node --check app/server.mjs && node --check server/index.mjs"
+    "check": "node --check app/server.mjs && node --check app/main.js && node --check server/index.mjs && node --check server/services/analyzeService.mjs && node --check server/services/followupService.mjs"
   },
   "dependencies": {}
 }
