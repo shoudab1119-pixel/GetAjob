@@ -86,7 +86,7 @@ const server = createServer(async (request, response) => {
     sendJson(response, 200, {
       service: "job-agent-server",
       status: "ok",
-      milestone: 4,
+      milestone: 7,
     });
     return;
   }

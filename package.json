@@ -6,7 +6,8 @@
   "scripts": {
     "start:app": "node app/server.mjs",
     "start:server": "node server/index.mjs",
-    "check": "node --check app/server.mjs && node --check app/main.js && node --check server/index.mjs && node --check server/services/analyzeService.mjs && node --check server/services/followupService.mjs"
+    "check": "node --check app/server.mjs && node --check app/fileParser.js && node --check app/main.js && node --check server/index.mjs && node --check server/services/analyzeService.mjs && node --check server/services/followupService.mjs && node --check server/models/jobPosting.mjs && node --check server/ingestion/jobSourceProvider.mjs && node --check tests/analyzeService.test.mjs && node --check tests/jobPosting.test.mjs",
+    "test": "node tests/analyzeService.test.mjs && node tests/jobPosting.test.mjs"
   },
   "dependencies": {}
 }

@@ -10,12 +10,12 @@
   <body>
     <main class="shell">
       <header class="hero">
-        <p class="eyebrow">Milestone 4</p>
+        <p class="eyebrow">Milestone 7</p>
         <h1>Job Agent</h1>
         <p>
-          Paste a job description and resume, then ask one follow-up question
-          grounded in the current analysis result. File upload and job-source
-          collection are still out of scope.
+          Paste or upload a job description and resume, then get a more grounded
+          fit analysis and ask one follow-up question. PDF/DOCX parsing,
+          recommended jobs, and job-source collection are still out of scope.
         </p>
       </header>
 
@@ -23,6 +23,12 @@
         <form class="panel form-panel" id="analysis-form">
           <div class="field">
             <label for="job-description">Job description</label>
+            <div class="file-control">
+              <label class="file-label" for="job-description-file">Upload JD file</label>
+              <input id="job-description-file" type="file" accept=".txt,.md,.json" />
+              <p class="hint">Supported: .txt, .md, .json. Upload fills the text area below.</p>
+              <div class="file-status" id="job-description-file-status" role="status" hidden></div>
+            </div>
             <textarea
               id="job-description"
               name="job_description"
@@ -33,6 +39,12 @@
 
           <div class="field">
             <label for="resume">Resume</label>
+            <div class="file-control">
+              <label class="file-label" for="resume-file">Upload resume file</label>
+              <input id="resume-file" type="file" accept=".txt,.md,.json" />
+              <p class="hint">Supported: .txt, .md, .json. Upload fills the text area below.</p>
+              <div class="file-status" id="resume-file-status" role="status" hidden></div>
+            </div>
             <textarea
               id="resume"
               name="resume"
@@ -43,13 +55,13 @@
 
           <div class="actions">
             <button type="submit" id="submit-button">Analyze fit</button>
-            <p class="hint">No data is persisted. The server returns a minimal heuristic analysis.</p>
+            <p class="hint">No data is persisted. The server returns a structured heuristic analysis.</p>
           </div>
         </form>
 
         <section class="panel result-panel" aria-live="polite">
           <div class="state state-loading" id="loading-state" role="status" hidden>
-            Generating placeholder analysis...
+            Generating analysis...
           </div>
 
           <div class="state state-error" id="error-state" role="alert" hidden></div>

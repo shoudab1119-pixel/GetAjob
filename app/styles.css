@@ -101,6 +101,42 @@ label {
   font-weight: 700;
 }
 
+.file-control {
+  margin-bottom: 12px;
+  border: 1px dashed #c8cfdb;
+  border-radius: 12px;
+  padding: 12px;
+  background: #f8fafc;
+}
+
+.file-label {
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+input[type="file"] {
+  display: block;
+  width: 100%;
+  color: #344054;
+}
+
+.file-status {
+  margin-top: 10px;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 0.9rem;
+}
+
+.file-status[data-type="success"] {
+  color: #17663a;
+  background: #eaf7ef;
+}
+
+.file-status[data-type="error"] {
+  color: #8a1f17;
+  background: #fff0ed;
+}
+
 textarea {
   display: block;
   width: 100%;

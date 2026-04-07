@@ -1,6 +1,12 @@
+import { parseTextUpload } from "./fileParser.js";
+
 const form = document.querySelector("#analysis-form");
 const jobDescriptionInput = document.querySelector("#job-description");
+const jobDescriptionFileInput = document.querySelector("#job-description-file");
+const jobDescriptionFileStatus = document.querySelector("#job-description-file-status");
 const resumeInput = document.querySelector("#resume");
+const resumeFileInput = document.querySelector("#resume-file");
+const resumeFileStatus = document.querySelector("#resume-file-status");
 const submitButton = document.querySelector("#submit-button");
 const loadingState = document.querySelector("#loading-state");
 const errorState = document.querySelector("#error-state");
@@ -56,6 +62,46 @@ function clearFollowupState() {
   followupErrorState.hidden = true;
   followupAnswer.textContent = "";
   followupAnswer.hidden = true;
+}
+
+function resetAnalysisState() {
+  resultSections.hidden = true;
+  emptyState.hidden = false;
+  followupForm.hidden = true;
+  currentAnalysisResult = null;
+  clearFollowupState();
+}
+
+function showFileStatus(statusElement, message, type) {
+  statusElement.textContent = message;
+  statusElement.dataset.type = type;
+  statusElement.hidden = false;
+}
+
+function clearFileStatus(statusElement) {
+  statusElement.textContent = "";
+  statusElement.removeAttribute("data-type");
+  statusElement.hidden = true;
+}
+
+async function handleFileInput({ fileInput, textInput, statusElement, label }) {
+  clearError();
+  clearFileStatus(statusElement);
+
+  const file = fileInput.files?.[0];
+
+  if (!file) {
+    return;
+  }
+
+  try {
+    textInput.value = await parseTextUpload(file);
+    resetAnalysisState();
+    showFileStatus(statusElement, `${label} loaded from ${file.name}.`, "success");
+  } catch (error) {
+    fileInput.value = "";
+    showFileStatus(statusElement, error.message, "error");
+  }
 }
 
 function renderResult(result) {
@@ -210,6 +256,24 @@ form.addEventListener("submit", async (event) => {
   } finally {
     setLoading(false);
   }
+});
+
+jobDescriptionFileInput.addEventListener("change", () => {
+  handleFileInput({
+    fileInput: jobDescriptionFileInput,
+    textInput: jobDescriptionInput,
+    statusElement: jobDescriptionFileStatus,
+    label: "Job description",
+  });
+});
+
+resumeFileInput.addEventListener("change", () => {
+  handleFileInput({
+    fileInput: resumeFileInput,
+    textInput: resumeInput,
+    statusElement: resumeFileStatus,
+    label: "Resume",
+  });
 });
 
 followupForm.addEventListener("submit", async (event) => {
